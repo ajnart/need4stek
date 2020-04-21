@@ -21,8 +21,6 @@ all: $(OUTPUT)
 
 re: fclean all
 
-copy-heads: $(DEST_HEADS)
-
 $(OUTPUT): $(OBJS)
 	@$(call rich_echo,"AR","$@")
 	@ar rcs $@ $(OBJS)
@@ -42,5 +40,5 @@ fclean: clean
 	@$(call rich_echo,"RM","$(OUTPUT) *.gcov")
 	@rm -f $(OUTPUT) $(wildcard *.gcov)
 
-.PHONY: all re copy-heads clean fclean doc
+.PHONY: all re clean fclean
 .NOTPARALLEL:

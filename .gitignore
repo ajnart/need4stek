@@ -1,12 +1,8 @@
-scene/8_bonus.ttt
-scene/bootstrap_track.ttt
-scene/criss_cross.ttt
-scene/diamond_bonus.ttt
-scene/track_1.ttt
-scene/track_3.ttt
-scene/track_2.ttt
-scene/track_4.ttt
+scene
 n4s_package
 *.o
 *.a
 ai
+output
+launch
+.vscode
