@@ -15,7 +15,7 @@ FBONUS	=	bonus/*.c
 
 OBJ	=	$(SRC:.c=.o) $(MAIN:.c=.o)
 
-NAME	=	unnamed
+NAME	=	ai
 
 LIB	=	-L ./lib -lmy
 
@@ -29,7 +29,7 @@ all:	dolib $(NAME)
 
 $(NAME): $(OBJ)
 	make -C ./lib/my/
-	gcc -o $(NAME) $(CFLAGS) $(SRC) $(LIB) $(MAIN)
+	gcc -o $(NAME) $(CFLAGS) $(CPPFLAGS) $(SRC) $(LIB) $(MAIN)
 
 dolib:
 	make -C ./lib/my
