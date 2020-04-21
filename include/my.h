@@ -57,5 +57,12 @@ int my_print_comb(void);
 int my_print_digits(void);
 int my_print_revalpha(void);
 char *test_first_letter(char *, int);
-
+int shownbr_base(int nbr, int length, char const *base);
+int my_putnbr_base(int nbr, char const *base);
+int my_putnbr_base_unsigned(unsigned long nbr, char const *base);
+int shownbr_base_unsigned(unsigned long nbr, int length, char const *base);
+void my_sprintf(char *buf, char const *ap, ...);
+char **my_str_to_wordtab(char *str, char g);
+char *get_next_line(int fd);
+int my_printf(const char *str, ...);
 #endif /* MY_H_ */
