@@ -24,6 +24,7 @@ re: fclean all
 $(OUTPUT): $(OBJS)
 	@$(call rich_echo,"AR","$@")
 	@ar rcs $@ $(OBJS)
+	@cp $(SOURCE_DIR)/my.h ../include/
 
 $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
 	@$(call rich_echo,"CC","$@")
