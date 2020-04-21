@@ -1,57 +1,75 @@
 ##
-## EPITECH PROJECT, 2018
-## My_Makefile
+## EPITECH PROJECT, 2019
+## makefile
 ## File description:
-## Makefile
+## makefile
 ##
 
-MAIN	=	src/main.c  \
+define rich_echo
+[ -t 1 ] && echo -e "\e[1m$(1)\e[0m\t$(2)" || echo -e "$(1)\t$(2)"
+endef
 
-SRC		=
+MAKEFLAGS += --no-print-directory
 
-TEST	=	./tests/test_*.c
+CMD				=
+CC				= gcc
+MAKE			= make
 
-FBONUS	=	bonus/*.c
+SOURCE_DIR		= src
+BUILD_DIR		= build
 
-OBJ	=	$(SRC:.c=.o) $(MAIN:.c=.o)
+SOURCE	= $(shell find $(SOURCE_DIR) -name "*.c")
+
+CFLAGS	+=	-Llib -Iinclude -lmy -W -g3
+LD_FLAGS	= 
+
+ifneq (,$(findstring tests,$(MAKECMDGOALS)))
+	CFLAGS += -D__TESTS -fprofile-arcs -ftest-coverage -lcriterion --coverage
+endif
+
+OBJ		=	$(patsubst $(SOURCE_DIR)/%.c,$(BUILD_DIR)/%.o,$(SOURCE))
 
 NAME	=	ai
 
-LIB	=	-L ./lib -lmy
+all:	$(NAME) message #test_run
 
-CFLAGS	=	-W -Werror -Wall -Wextra
+$(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
+	@$(call rich_echo,"CC","$@")
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-CPPFLAGS	=	-I ./include
+message:
+	@echo -e "\e[38;5;33m"
+	@figlet $(NAME); exit 0
+	@echo -e "\e[0m"
+	@echo -e "\e[1m[INFO]\t\e[92mCompilation successful ✔\e[0m"
 
-CSFMLFLAGS	=	-l csfml-graphics -l csfml-window -l csfml-system -l csfml-audio
-
-all:	dolib $(NAME)
-
-$(NAME): $(OBJ)
-	gcc -o $(NAME) $(CFLAGS) $(CPPFLAGS) $(SRC) $(LIB) $(MAIN)
-
-dolib:
-	make -C ./lib/my
-
-tests_run:
-	dolib
-	gcc -o test $(CFLAGS) $(TEST) $(SRC) $(LIB) --coverage -lcriterion
-	./test
-	gcovr --exclude tests/
-	rm test
+$(NAME):	$(OBJ)
+	@$(MAKE) -C lib/
+	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LD_FLAGS)
 
 clean:
-	rm -f $(OBJ)
-	make -C ./lib/my/ clean
-	touch test.gcno
-	rm *.gc*
+	@$(MAKE) -C lib/ clean
+	@rm -f $(OBJ)
+	@rm -rf tests/*.gc*
+	@rm -rf *.gc*
+	@$(call rich_echo,"MK","FClean done")
 
-fclean:	clean
-	rm -f $(NAME)
-	make -C ./lib/my/ fclean
+fclean:		clean
+	@$(MAKE) -C lib/ fclean -s
+	@rm -f $(NAME)*
+	@rm -f libmy.a
+	@$(call rich_echo,"MK","FClean done")
 
-re: fclean all
+re:	fclean all
 
-bonus:
+protos: $(NAME)
+	@cproto $(SOURCE) -Iinclude
 
-.PHONY: all clean fclean re bonus tests_run dolib
+tests_run:
+	$(CC) -o $(NAME)_tests $(SOURCE) tests/*.c $(CFLAGS) $(LD_FLAGS)
+	./$(NAME)_tests
+	mv *.gc* tests/
+
+.PHONY: tests_run re fclean clean all $(NAME) protos message
+.NOTPARALLEL:
