@@ -6,14 +6,13 @@
 */
 
 #include "my.h"
+#include "nfs.h"
 
 #ifndef __TESTS
 
-int main(int argc, char * const *argv)
+int main(int __attribute__((unused))ac, char __attribute__((unused))**av)
 {
-    UNUSED(argc);
-    UNUSED(argv);
-    return (0);
+    return(n4s());
 }
 
 #endif
