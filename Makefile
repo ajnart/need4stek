@@ -28,7 +28,6 @@ CSFMLFLAGS	=	-l csfml-graphics -l csfml-window -l csfml-system -l csfml-audio
 all:	dolib $(NAME)
 
 $(NAME): $(OBJ)
-	make -C ./lib/my/
 	gcc -o $(NAME) $(CFLAGS) $(CPPFLAGS) $(SRC) $(LIB) $(MAIN)
 
 dolib:
@@ -55,4 +54,4 @@ re: fclean all
 
 bonus:
 
-.PHONY: all clean fclean re bonus tests_run
+.PHONY: all clean fclean re bonus tests_run dolib
