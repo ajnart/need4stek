@@ -6,3 +6,7 @@ scene/track_1.ttt
 scene/track_3.ttt
 scene/track_2.ttt
 scene/track_4.ttt
+n4s_package
+*.o
+*.a
+ai
