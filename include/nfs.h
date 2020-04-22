@@ -5,9 +5,15 @@
 ** nfs.h
 */
 
+#ifdef DEBUG
+#undef DEBUG
+#define DEBUG 1
+#else
+#define DEBUG 0
+#endif
+
 #ifndef __NFS__
 #define __NFS__
-
 int n4s();
 
 #endif

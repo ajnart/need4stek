@@ -10,9 +10,11 @@
 
 #ifndef __TESTS
 
-int main(int __attribute__((unused))ac, char __attribute__((unused))**av)
+void send_command(char *command);
+
+int main(int __attribute__((unused)) ac, char __attribute__((unused)) **av)
 {
-    return(n4s());
+    return (n4s());
 }
 
 #endif
