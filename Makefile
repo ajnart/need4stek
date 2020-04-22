@@ -20,8 +20,12 @@ BUILD_DIR		= build
 
 SOURCE	= $(shell find $(SOURCE_DIR) -name "*.c")
 
-CFLAGS	+=	-Llib -Iinclude -lmy -W -g3
+CFLAGS	+=	-Llib -Iinclude -lmy -W
 LD_FLAGS	= 
+
+ifneq (,$(findstring debug,$(MAKECMDGOALS)))
+	CFLAGS += -DDEBUG -g3
+endif
 
 ifneq (,$(findstring tests,$(MAKECMDGOALS)))
 	CFLAGS += -D__TESTS -fprofile-arcs -ftest-coverage -lcriterion --coverage
@@ -30,6 +34,8 @@ endif
 OBJ		=	$(patsubst $(SOURCE_DIR)/%.c,$(BUILD_DIR)/%.o,$(SOURCE))
 
 NAME	=	ai
+
+debug: all
 
 all:	$(NAME) message #test_run
 
