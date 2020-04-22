@@ -6,3 +6,5 @@ ai
 output
 launch
 .vscode
+*.log
+my_pipes.sh
