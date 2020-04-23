@@ -24,7 +24,7 @@ CFLAGS	+=	-Llib -Iinclude -lmy -W
 LD_FLAGS	= 
 
 ifneq (,$(findstring debug,$(MAKECMDGOALS)))
-	CFLAGS += -DDEBUG -g3
+	CFLAGS += -D__DEBUG__ -g3
 endif
 
 ifneq (,$(findstring tests,$(MAKECMDGOALS)))

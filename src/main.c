@@ -10,7 +10,7 @@
 
 #ifndef __TESTS
 
-void send_command(char *command);
+void send_command(char *command, ...);
 
 int main(int __attribute__((unused)) ac, char __attribute__((unused)) **av)
 {
