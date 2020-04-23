@@ -14,6 +14,15 @@
 
 #ifndef __NFS__
 #define __NFS__
+
+typedef struct n4s_infos {
+    int ended;
+    int obstructed;
+    int front;
+    int left;
+    int right;
+} car_state_s;
+
 int n4s();
 
 #endif
