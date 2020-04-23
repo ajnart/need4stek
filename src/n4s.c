@@ -42,15 +42,6 @@ void lidar_update(car_state_s *car_state)
 }
 // TODO : Free
 
-void send_dir(car_state_s *car_st, char *dir)
-{
-	char buf[32];
-	float nbr = car_st->left - car_st->right;
-
-	((nbr > 0.0 && car_st->obstructed) || (nbr < 0.0 && !car_st->obstructed)) ?
-    send_command("WHEELS_DIR:-%s", dir) : send_command("WHEELS_DIR:%s", dir);
-}
-
 void update_direction(car_state_s *car_st)
 {
     char *dir = NULL;
@@ -74,7 +65,7 @@ void update_direction(car_state_s *car_st)
 	((nbr > 0.0 && car_st->obstructed) || (nbr < 0.0 && !car_st->obstructed)) ?
     send_command("WHEELS_DIR:-%s", dir) : send_command("WHEELS_DIR:%s", dir);
 }
-
+// TODO : Fix norme.
 // char *forwards(int distance)
 // {
 
@@ -101,6 +92,7 @@ char *forwards(int distance)
 	else
 		return("CAR_FORWARD:0.1\n");
 }
+// TODO : Norme
 
 void main_loop()
 {
