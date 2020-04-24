@@ -5,7 +5,11 @@
 ** n4s.c
 */
 
-#include "my.h"
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 #include "nfs.h"
 
 const char *send_cmd(char *command, ...)
@@ -63,8 +67,9 @@ const char *forwards(int distance)
     return(send_cmd("CAR_FORWARD:%.2f\n", speed[i]));
 }
 
-void main_loop(void)
+int n4s(void)
 {
+    send_cmd("START_SIMULATION\n");
     const char *response = NULL;
     car_state_s car_state = {0, 0, 2000, 0, 0};
     while (car_state.ended == 0) {
@@ -74,18 +79,12 @@ void main_loop(void)
             response = forwards(car_state.front);
         if (strstr(response, "Track Cleared")) {
             car_state.ended = 1;
-            send_cmd("CAR_BACKWARDS:1\n");
+            send_cmd("CAR_BACKWARDS:0.5\n");
             break;
         }
         lidar_update(&car_state);
         update_direction(&car_state);
     }
-}
-
-int n4s(void)
-{
-    send_cmd("START_SIMULATION\n");
-    main_loop();
     send_cmd("END_SIMULATION\n");
     return (0);
 }
