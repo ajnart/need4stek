@@ -5,6 +5,7 @@ n4s_package
 ai
 output
 launch
+*.gc*
 .vscode
 *.log
 my_pipes.sh
