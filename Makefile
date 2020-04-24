@@ -27,7 +27,7 @@ ifneq (,$(findstring debug,$(MAKECMDGOALS)))
 endif
 
 ifneq (,$(findstring tests,$(MAKECMDGOALS)))
-	CFLAGS += -D__TESTS -fprofile-arcs -ftest-coverage -lcriterion --coverage
+	CFLAGS += -D__TESTS -lcriterion --coverage
 endif
 
 OBJ		=	$(patsubst $(SOURCE_DIR)/%.c,$(BUILD_DIR)/%.o,$(SOURCE))
@@ -69,9 +69,10 @@ protos: $(NAME)
 	@cproto $(SOURCE) -Iinclude
 
 tests_run:
-	$(CC) -o $(NAME)_tests $(SOURCE) tests/*.c $(CFLAGS) $(LD_FLAGS)
-	./$(NAME)_tests
-	mv *.gc* tests/
+	@$(CC) -o $(NAME)_tests $(SOURCE) tests/*.c $(CFLAGS) $(LD_FLAGS)
+	@$(call rich_echo,"UT","Unit tests compilation done.")
+	@./$(NAME)_tests
+	@mv *.gc* tests/
 
 .PHONY: tests_run re fclean clean all $(NAME) protos message
 .NOTPARALLEL:
