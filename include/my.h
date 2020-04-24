@@ -10,8 +10,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <criterion/criterion.h>
 #include <unistd.h>
+#include <criterion/criterion.h>
 
 #define UNUSED(x) (void)(x)
 
