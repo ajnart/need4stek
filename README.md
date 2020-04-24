@@ -1,26 +1,17 @@
-## B2 - Introduction to Artificial
-
-## Intelligence
-
-## B-AIA-
-
 # Need4Stek
 
 ## Autonomous car concept
 
-```
-1.
-```
+### Infos
+| Info        | Description |
+| ----------- | ----------- |
+| **Module-ID**   | B2 - Introduction to Artificial Intelligence       |
+| **Repo name**   | **AIA_n4s_$ACADEMICYEAR**                          |
+| **Binary name** | **ai**                                             |
+| **Language**    | **C**                                              |
+| **Compilation** | Via Makefile, including re, clean and fclean rules |
 
-# Need4Stek
 
-```
-binary name : ai
-repository name : AIA_n4s_$ACADEMICYEAR
-repository rights : ramassage-tek
-language : C
-compilation : via Makefile, including re, clean and fclean rules
-```
 - The totality of your source files, except all useless files (binary, temp files, obj
     files,...), must be included in your delivery.
 - All the bonus files (including a potential specific Makefile) should be in a directory
@@ -28,9 +19,7 @@ compilation : via Makefile, including re, clean and fclean rules
 - Error messages have to be written on the error output, and the program should
     then exit with the 84 error code (0 if there is no error).
 
-```
-For this project, all of the libC functions are authorized.
-```
+        For this project, all of the lib functions are authorized.
 By now you’ve understood that it’s now your turn to create your own autonomous car. It must be capable
 of driving on a track without hitting the walls or driving in the wrong direction.
 In order to help you with this task, several tools are avaible:
@@ -49,7 +38,7 @@ In order to help you with this task, several tools are avaible:
 
 ## CoppeliaSim
 
-### + +Installation
+### Installation
 
 Download CoppeliaSim Edu V4.0.0 (the assets provided for the project function solely with Linux and Mac).
 In order to launch V-REP, you need to execute the onboard script:
@@ -71,7 +60,7 @@ gine
 
 ## API
 
-### + +Overral Functionning
+### Overral Functionning
 
 The _n4s_ binary enables communication with CoppeliaSim (via a socket in C) and controls each of the ele-
 ments that we have put in our scene.
@@ -83,7 +72,7 @@ and receive the _n4s_ responses by reading them on your standard input.
 The command in the _pipes.sh_ script enables you to correctly link the different binaries. You’ll need to execute
 the _pipes.sh_ script in order to launch the simulation and see how it interacts with your AI.
 
-### + +Commands
+### Commands
 
 The communication is done via a text-type protocol:
 
@@ -102,82 +91,75 @@ GET_CAR_SPEED_MAX - (3)
 GET_CAR_SPEED_MIN - (3)
 GET_INFO_SIMTIME - (4)
 ```
+
 ```
 All the commands ends with\nand inevitably lead to an answer.
 If n4s doesn’t receive a command, it won’t send out an answer.
 Commands are not case sensitive.
 ```
-For example, CAR_FORWARD takes a parameter that does indicate the engine power you want to drive
-with (and not absolute speed):
-CAR_FORWARD:0.5\nmakes the car move forward at half of its maximum speed.
+
+For example, ``CAR_FORWARD`` takes a parameter that does indicate the engine power you want to drive
+with (and not absolute speed): ``CAR_FORWARD:0.5\n`` Makes the car move forward at half of its maximum speed.
 
 
-### + +Responses
+### Responses
 
 Here are the different answer formats, corresponding to each type:
+| VALUE_ID    | STATUS    | CODE_STR | ADDITIONAL_INFO |
+| ----------- | ----------- | -------| ---------------|
+|(1): VALUE_ID|STATUS|CODE_STR| | ADDITIONNAL_INFO
+|(2): VALUE_ID|STATUS|CODE_STR| [:float]*32 | ADDITIONNAL_INFO
+|(3): VALUE_ID|STATUS|CODE_STR| float | ADDITIONNAL_INFO
+|(4): VALUE_ID|STATUS|CODE_STR| [long,long] | ADDITIONNAL_INFO
 
-- (1): VALUE_ID:STATUS:CODE_STR:ADDITIONNAL_INFO
-- (2): VALUE_ID:STATUS:CODE_STR[:float]*32:ADDITIONNAL_INFO
-- (3): VALUE_ID:STATUS:CODE_STR:float:ADDITIONNAL_INFO
-- (4): VALUE_ID:STATUS:CODE_STR:[long,long]:ADDITIONNAL_INFO
+**VALUE_ID** : Indicates the response code. The different values are listed below.
 
-**VALUE_ID** indicates the response code. The different values are listed below.
-**STATUS** is whether “OK” or “KO”. It indicates if the command execution is a success or a failure.
-**CODE_STR** corresponds to the verbal version of VALUE_ID. The different values are also listed below.
-**ADDITIONAL_INFO** can contain information concerning the last checkpoint passed on the track (followed
-by the id of this checkpoint and the passage timestamp). The four different types of checkpoints are as
-follows:
-Message Explanation
-First CP Cleared first checkpoint passed
-CP Cleared passing a checkpoint (other than the first and last on the track)
-Lap Cleared complete lap
-Track Cleared end of the race. You need to stop the car and the simulation
+**STATUS** : Is whether “OK” or “KO”. It indicates if the command execution is a success or a failure.
+
+**CODE_STR** : Corresponds to the verbal version of VALUE_ID. The different values are also listed below.
+
+**ADDITIONAL_INFO** : Can contain information concerning the last checkpoint passed on the track (followed
+by the id of this checkpoint and the passage timestamp). 
+The four different types of checkpoints are as follows:
+### Message Explanation:
+**First CP**: Cleared first checkpoint passed
+
+**CP Cleared**: Passing a checkpoint (other than the first and last on the track)
+
+**Lap Cleared**: Complete lap
+
+**Track Cleared**: End of the race. You need to stop the car and the simulation
 
 
-VALUE_ID/CODE_STR correspondance:
+### VALUE_ID/CODE_STR correspondance:
 
-```
-VALUE_ID CODE_STR
-0 Simulation has not been launched
-1 No errors so far
-2 Simulation running
-3 Error. No details can be provided atm
-5 Checkpoint error detected
-6 Network operation failure
-7 Server-side Error
-8 Client-side Error
-9 EOF reached
-10 Simulation was correctly ended
-11 Empty command
-12 Unknown command
-13 Wrong arguments provided. Please refer to protocol
-14 Too many args provided with the command. Please refer to protocol
-15 Pipeline failure
-16 Unexpected command argument’s value
-17 Camera infoget failure
-18 Command not found
-19 Simulation already up and running
-20 CYCLE_DONE
-21 Sensor reading failure
-22 Scene must contain at least 3 CPs
-23 Timer Init Failure
-24 Timer get Failure
-25 Failed to load Map
-```
-### + +Example
-
-Here’s an example of the _n4s_ binary usage in standalone, in order to test the API:
-
-### ∇ Terminal - + x
-
-```
-∼/B-AIA-200> ./n4s
-start_simulation
-2:OK:Simulation running:No further info
-stop_simulation
-10:OK:Simulation was correctly ended:No further info
-Last state registered: 10:OK:Simulation was correctly ended
-```
+| VALUE_ID    | CODE_STR    |
+| ----------- | ----------- |
+| 0  |Simulation has not been launched
+| 1  |No errors so far
+| 2  |Simulation running
+| 3  |Error. No details can be provided atm
+| 5  |Checkpoint error detected
+| 6  |Network operation failure
+| 7  |Server-side Error
+| 8  |Client-side Error
+| 9  |EOF reached
+| 10 | Simulation was correctly ended
+| 11 | Empty command
+| 12 | Unknown command
+| 13 | Wrong arguments provided. Please refer to protocol
+| 14 | Too many args provided with the command. Please refer to protocol
+| 15 | Pipeline failure
+| 16 | Unexpected command argument’s value
+| 17 | Camera infoget failure
+| 18 | Command not found
+| 19 | Simulation already up and running
+| 20 | CYCLE_DONE
+| 21 | Sensor reading failure
+| 22 | Scene must contain at least 3 CPs
+| 23 | Timer Init Failure
+| 24 | Timer get Failure
+| 25 | Failed to load Map
 
 ## FAQ
 
