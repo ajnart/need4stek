@@ -24,5 +24,6 @@ typedef struct n4s_infos {
 } car_state_s;
 
 int n4s();
+char **my_str_to_wordtab(char *str, char g);
 
 #endif
