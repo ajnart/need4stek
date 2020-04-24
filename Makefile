@@ -20,7 +20,7 @@ BUILD_DIR		= build
 
 SOURCE	= $(shell find $(SOURCE_DIR) -name "*.c")
 
-CFLAGS	+=	-Llib -Iinclude -lmy -W
+CFLAGS	+= -Iinclude -W
 
 ifneq (,$(findstring debug,$(MAKECMDGOALS)))
 	CFLAGS += -D__DEBUG__ -g3
@@ -50,18 +50,15 @@ message:
 	@echo -e "\e[1m[INFO]\t\e[92mCompilation successful ✔\e[0m"
 
 $(NAME):	$(OBJ)
-	@$(MAKE) -C lib/
 	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LD_FLAGS)
 
 clean:
-	@$(MAKE) -C lib/ clean
 	@rm -f $(OBJ)
 	@rm -rf tests/*.gc*
 	@rm -rf *.gc*
 	@$(call rich_echo,"MK","FClean done")
 
 fclean:		clean
-	@$(MAKE) -C lib/ fclean -s
 	@rm -f $(NAME)*
 	@rm -f libmy.a
 	@$(call rich_echo,"MK","FClean done")
