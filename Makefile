@@ -21,7 +21,6 @@ BUILD_DIR		= build
 SOURCE	= $(shell find $(SOURCE_DIR) -name "*.c")
 
 CFLAGS	+=	-Llib -Iinclude -lmy -W
-LD_FLAGS	= 
 
 ifneq (,$(findstring debug,$(MAKECMDGOALS)))
 	CFLAGS += -D__DEBUG__ -g3
