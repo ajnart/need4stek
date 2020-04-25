@@ -1,11 +1,14 @@
 # Need4Stek
 
+The Need4Stek was a first year project at Epitech. It teaches you the basics of "artificial intelligence".
+
+
 ## Autonomous car concept
 
 ### Infos
-| Info        | Description |
-| ----------- | ----------- |
-| **Module-ID**   | B2 - Introduction to Artificial Intelligence       |
+| Info            | Description                                        |
+| --------------- | -------------------------------------------------- |
+| **Module-ID**   | **B2 - Introduction to Artificial Intelligence**   |
 | **Repo name**   | **AIA_n4s_$ACADEMICYEAR**                          |
 | **Binary name** | **ai**                                             |
 | **Language**    | **C**                                              |
