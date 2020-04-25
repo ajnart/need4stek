@@ -51,7 +51,8 @@ void update_direction(car_state_s *car_st)
     float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.3, 0.5};
     int comp = car_st->left - car_st->right;
 
-    car_st->obstructed = car_st->front < 220 ? 1 : 0;
+    car_st->obstructed = car_st->front < 220 || car_st->left <= 0
+        || car_st->right <= 0 ? 1 : 0;
     while (distance[i] >= car_st->front)
         i++;
     if ((comp > 0 && car_st->obstructed) || (comp < 0 && !car_st->obstructed))
