@@ -47,14 +47,13 @@ void update_direction(car_state_s *car_st)
 {
     char *dir = NULL;
     int i = 0;
-    float distance[7] = {2000, 1500, 1000, 600, 400, 200, 0};
-    float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.3, 0.5};
+    float distance[7] = {2000, 1500, 900, 600, 400, 200, 0};
+    float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.25, 0.4};
     int comp = car_st->left - car_st->right;
 
-    car_st->obstructed = car_st->front < 220 || car_st->left <= 0
+    car_st->obstructed = car_st->front < 200 || car_st->left <= 0
         || car_st->right <= 0 ? 1 : 0;
-    while (distance[i] >= car_st->front)
-        i++;
+    for (i = 0; distance[i] >= car_st->front; i++);
     if ((comp > 0 && car_st->obstructed) || (comp < 0 && !car_st->obstructed))
         send_cmd("WHEELS_DIR:-%.4f\n", dirs[i]);
     else
