@@ -17,8 +17,6 @@ const char *send_cmd(char *command, ...)
     va_list argptr;
     va_start(argptr, command);
     static char buffer[512];
-    if (__DEBUG__)
-        write(2, command, strlen(command));
     vdprintf(1, command, argptr);
     read(0, buffer, 512);
     va_end(argptr);
@@ -35,9 +33,6 @@ void lidar_update(car_state_s *car_state)
     car_state->left = atof(tab[3]);
     car_state->front = atof(tab[18]);
     car_state->right = atof(tab[33]);
-    if (__DEBUG__)
-        dprintf(2, "[DEBUG] Sensors:\nFront: %d\tRight: %d\tLeft: %d\n",
-                car_state->front, car_state->right, car_state->left);
     for (i = 0; tab[i]; i++)
         free(tab[i]);
     free(tab);
