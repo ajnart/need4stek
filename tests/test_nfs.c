@@ -53,7 +53,7 @@ Test(main, forwards_2500)
     cr_redirect_stdout();
     freopen((const char * restrict)"CAR_FORWARD:1.0\n", "r", stdin);
     forwards(2500);
-    cr_assert_stdout_neq_str("CAR_FORWARD:1.0\n");
+    cr_assert_stdout_neq_str("CAR_FORWARD:0.5\n");
 }
 
 Test(main, forwards_1200)
@@ -61,7 +61,7 @@ Test(main, forwards_1200)
     cr_redirect_stdout();
     freopen((const char * restrict)"CAR_FORWARD:0.5\n", "r", stdin);
     forwards(1200);
-    cr_assert_stdout_neq_str("CAR_FORWARD:0.5\n");
+    cr_assert_stdout_neq_str("CAR_FORWARD:0.7\n");
 }
 
 Test(main, direction)

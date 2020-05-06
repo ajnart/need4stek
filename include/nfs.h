@@ -18,5 +18,6 @@ typedef struct n4s_infos {
 
 int n4s();
 char **my_str_to_wordtab(char *str, char g);
+void lidar_update(car_state_s *car_state);
 
 #endif

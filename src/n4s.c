@@ -42,8 +42,8 @@ void update_direction(car_state_s *car_st)
 {
     char *dir = NULL;
     int i = 0;
-    float distance[7] = {2000, 1500, 900, 600, 400, 200, 0};
-    float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.25, 0.4};
+    float distance[7] = {2000, 1000, 900, 600, 400, 200, 0};
+    float dirs[7] = {0.005, 0.05, 0.10, 0.15, 0.25, 0.35};
     int comp = car_st->left - car_st->right;
 
     car_st->obstructed = car_st->front < 200 || car_st->left <= 0
@@ -67,7 +67,6 @@ const char *forwards(int distance)
 }
 
 #ifndef __TESTS
-
 int main(void)
 {
     send_cmd("START_SIMULATION\n");
@@ -89,5 +88,4 @@ int main(void)
     send_cmd("END_SIMULATION\n");
     return (0);
 }
-
 #endif
