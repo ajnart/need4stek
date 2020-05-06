@@ -71,7 +71,9 @@ const char *forwards(int distance)
     return(send_cmd("CAR_FORWARD:%.2f\n", speed[i]));
 }
 
-int n4s(void)
+#ifndef __TESTS
+
+int main(void)
 {
     send_cmd("START_SIMULATION\n");
     const char *response = NULL;
@@ -92,3 +94,5 @@ int n4s(void)
     send_cmd("END_SIMULATION\n");
     return (0);
 }
+
+#endif

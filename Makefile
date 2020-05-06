@@ -23,7 +23,7 @@ SOURCE	= $(shell find $(SOURCE_DIR) -name "*.c")
 CFLAGS	+= -Iinclude -W
 
 ifneq (,$(findstring debug,$(MAKECMDGOALS)))
-	CFLAGS += -D__DEBUG__ -g3
+	CFLAGS += -D__DEBUG -g3
 endif
 
 ifneq (,$(findstring tests,$(MAKECMDGOALS)))

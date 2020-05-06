@@ -5,13 +5,6 @@
 ** nfs.h
 */
 
-#ifdef __DEBUG__
-#undef __DEBUG__
-#define __DEBUG__ 1
-#else
-#define __DEBUG__ 0
-#endif
-
 #ifndef __NFS__
 #define __NFS__
 
