@@ -35,9 +35,11 @@ void lidar_update(car_state_s *car_state)
     int i = 0;
     response = send_cmd("GET_INFO_LIDAR\n", &car_state->ended);
     tab = my_str_to_wordtab((char *)response, ':');
+    if (tab[34]) {
     car_state->left = atof(tab[3]);
     car_state->front = atof(tab[20]);
     car_state->right = atof(tab[34]);
+    }
 #ifdef __DEBUG
     dprintf(2, "[DEBUG] Sensors:\nFront: %d\tRight: %d\tLeft: %d\n",
             car_state->front, car_state->right, car_state->left);
