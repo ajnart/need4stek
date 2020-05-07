@@ -17,11 +17,13 @@ const char *send_cmd(char *command, ...)
     va_list argptr;
     va_start(argptr, command);
     static char buffer[512];
-#ifdef __DEBUG
-        write(2, command, strlen(command));
-#endif
     vdprintf(1, command, argptr);
-    read(0, buffer, 512);
+    buffer[read(0, buffer, 512)] = '\0';
+    #ifdef __DEBUG
+            write(2, buffer, strlen(buffer));
+    #endif
+    if (strstr(buffer, "Track Cleared"))
+        va_arg(argptr, int *)[0] = 1;
     va_end(argptr);
     return (buffer);
 }
@@ -31,11 +33,11 @@ void lidar_update(car_state_s *car_state)
     const char *response;
     static char **tab;
     int i = 0;
-    response = send_cmd("GET_INFO_LIDAR\n");
+    response = send_cmd("GET_INFO_LIDAR\n", &car_state->ended);
     tab = my_str_to_wordtab((char *)response, ':');
     car_state->left = atof(tab[3]);
-    car_state->front = atof(tab[18]);
-    car_state->right = atof(tab[33]);
+    car_state->front = atof(tab[20]);
+    car_state->right = atof(tab[34]);
 #ifdef __DEBUG
     dprintf(2, "[DEBUG] Sensors:\nFront: %d\tRight: %d\tLeft: %d\n",
             car_state->front, car_state->right, car_state->left);
@@ -53,20 +55,20 @@ void update_direction(car_state_s *car_st)
     float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.25, 0.4};
     int comp = car_st->left - car_st->right;
 
-    car_st->obstructed = car_st->front < 200 || car_st->left <= 0
+    car_st->obstructed = car_st->front < 150 || car_st->left <= 0
         || car_st->right <= 0 ? 1 : 0;
     for (i = 0; distance[i] >= car_st->front; i++);
     if ((comp > 0 && car_st->obstructed) || (comp < 0 && !car_st->obstructed))
-        send_cmd("WHEELS_DIR:-%.4f\n", dirs[i]);
+        send_cmd("WHEELS_DIR:-%.4f\n", dirs[i], &car_st->ended);
     else
-        send_cmd("WHEELS_DIR:%.4f\n", dirs[i]);
+        send_cmd("WHEELS_DIR:%.4f\n", dirs[i], &car_st->ended);
 }
 
 const char *forwards(int distance)
 {
     int i = 0;
     float dis_list[6] = {2000, 1500, 1000, 600, 400, 0};
-    float speed[6] = {1.0, 0.8, 0.5, 0.4, 0.2, 0.1};
+    float speed[6] = {0.8, 0.6, 0.5, 0.4, 0.2, 0.1};
 
     while (dis_list[i] > distance)
         i++;
@@ -85,11 +87,6 @@ int main(void)
             send_cmd("CAR_BACKWARDS:0.25\n");
         else
             response = forwards(car_state.front);
-        if (strstr(response, "Track Cleared")) {
-            car_state.ended = 1;
-            send_cmd("CAR_BACKWARDS:0.5\n");
-            break;
-        }
         lidar_update(&car_state);
         update_direction(&car_state);
     }
