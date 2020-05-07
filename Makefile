@@ -74,5 +74,5 @@ tests_run:
 	@./$(NAME)_tests
 	@mv *.gc* tests/
 
-.PHONY: tests_run re fclean clean all $(NAME) protos message
+.PHONY: tests_run re fclean clean all $(NAME) protos message debug
 .NOTPARALLEL:
