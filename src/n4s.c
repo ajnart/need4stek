@@ -16,16 +16,16 @@ const char *send_cmd(char *command, ...)
 {
     va_list argptr;
     va_start(argptr, command);
-    static char buffer[512];
+    char buffer[1024];
     vdprintf(1, command, argptr);
-    buffer[read(0, buffer, 512)] = '\0';
+    buffer[read(0, buffer, 1024)] = '\0';
     #ifdef __DEBUG
             write(2, buffer, strlen(buffer));
     #endif
     if (strstr(buffer, "Track Cleared"))
         va_arg(argptr, int *)[0] = 1;
     va_end(argptr);
-    return (buffer);
+    return (strdup(buffer));
 }
 
 void lidar_update(car_state_s *car_state)
