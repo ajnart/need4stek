@@ -16,8 +16,13 @@ typedef struct n4s_infos {
     int right;
 } car_state_s;
 
-int n4s();
+/* src/my_str_to_wordtab.c */
 char **my_str_to_wordtab(char *str, char g);
+/* src/n4s.c */
+const char *send_cmd(char *command, ...);
 void lidar_update(car_state_s *car_state);
+void update_direction(car_state_s *car_st);
+const char *forwards(car_state_s *car_state);
+int main(void);
 
 #endif
