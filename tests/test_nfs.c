@@ -10,12 +10,6 @@
 #include <unistd.h>
 #include "nfs.h"
 
-// ? Sending commands
-const char *send_cmd(char *command, ...);
-char **my_str_to_wordtab(char *str, char g);
-void update_direction(car_state_s *car_st);
-const char *forwards(int distance);
-
 Test(send, send_cmd_dbg)
 {
     cr_redirect_stdout();
@@ -42,7 +36,7 @@ Test(main, forwards_2500)
 {
     cr_redirect_stdout();
     freopen((const char * restrict)"CAR_FORWARD:1.0\n", "r", stdin);
-    forwards(2500);
+    forwards(&(car_state_s){0, 2000, 0, 0, 0});
     cr_assert_stdout_neq_str("CAR_FORWARD:0.5\n");
 }
 
@@ -50,7 +44,7 @@ Test(main, forwards_1200)
 {
     cr_redirect_stdout();
     freopen((const char * restrict)"CAR_FORWARD:0.5\n", "r", stdin);
-    forwards(1200);
+    forwards(&(car_state_s){0, 1200, 0, 0, 0});
     cr_assert_stdout_neq_str("CAR_FORWARD:0.7\n");
 }
 
