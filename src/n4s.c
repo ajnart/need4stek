@@ -59,29 +59,28 @@ void update_direction(car_state_s *car_st)
         send_cmd("WHEELS_DIR:%.4f\n", dirs[i], &car_st->ended);
 }
 
-const char *forwards(int distance)
+const char *forwards(car_state_s *car_state)
 {
     int i = 0;
     float dis_list[6] = {2000, 1500, 1000, 600, 400, 0};
     float speed[6] = {0.8, 0.6, 0.5, 0.4, 0.2, 0.1};
 
-    while (dis_list[i] > distance)
+    while (dis_list[i] > car_state->front)
         i++;
-    return (send_cmd("CAR_FORWARD:%.2f\n", speed[i]));
+    return(send_cmd("CAR_FORWARD:%.2f\n", speed[i], &car_state->ended));
 }
 
 #ifndef __TESTS
 int main(void)
 {
+    car_state_s car_state = {0, 0, 3000, 0, 0};
+    send_cmd("START_SIMULATION\n", &car_state.ended);
     const char *response = NULL;
-
-    send_cmd("START_SIMULATION\n");
-    car_state_s car_state = {0, 0, 2000, 0, 0};
     while (car_state.ended == 0) {
         if (car_state.obstructed)
-            send_cmd("CAR_BACKWARDS:0.25\n");
+            send_cmd("CAR_BACKWARDS:0.25\n", &car_state.ended);
         else
-            response = forwards(car_state.front);
+            response = forwards(&car_state);
         lidar_update(&car_state);
         update_direction(&car_state);
     }
