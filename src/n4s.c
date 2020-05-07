@@ -46,7 +46,7 @@ void update_direction(car_state_s *car_st)
 {
     char *dir = NULL;
     int i = 0;
-    float distance[7] = {2000, 1500, 900, 600, 400, 200, 0};
+    float distance[7] = {2500, 1500, 900, 600, 400, 200, 0};
     float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.25, 0.4};
     int comp = car_st->left - car_st->right;
 

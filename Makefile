@@ -65,14 +65,11 @@ fclean:		clean
 
 re:	fclean all
 
-protos: $(NAME)
-	@cproto $(SOURCE) -Iinclude
-
 tests_run:
 	@$(CC) -o $(NAME)_tests $(SOURCE) tests/*.c $(CFLAGS) $(LD_FLAGS)
 	@$(call rich_echo,"UT","Unit tests compilation done.")
 	@./$(NAME)_tests
 	@mv *.gc* tests/
 
-.PHONY: tests_run re fclean clean all $(NAME) protos message debug
+.PHONY: tests_run re fclean clean all $(NAME) message debug
 .NOTPARALLEL:
