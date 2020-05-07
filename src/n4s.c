@@ -19,9 +19,6 @@ const char *send_cmd(char *command, ...)
     static char buffer[512];
     vdprintf(1, command, argptr);
     buffer[read(0, buffer, 512)] = '\0';
-    #ifdef __DEBUG
-            write(2, buffer, strlen(buffer));
-    #endif
     if (strstr(buffer, "Track Cleared"))
         va_arg(argptr, int *)[0] = 1;
     va_end(argptr);
@@ -40,10 +37,6 @@ void lidar_update(car_state_s *car_state)
         car_state->front = atof(tab[20]);
         car_state->right = atof(tab[34]);
     }
-#ifdef __DEBUG
-    dprintf(2, "[DEBUG] Sensors:\nFront: %d\tRight: %d\tLeft: %d\n",
-            car_state->front, car_state->right, car_state->left);
-#endif
     for (i = 0; tab[i]; i++)
         free(tab[i]);
     free(tab);
