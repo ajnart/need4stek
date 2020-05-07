@@ -50,8 +50,8 @@ void update_direction(car_state_s *car_st)
     float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.25, 0.4};
     int comp = car_st->left - car_st->right;
 
-    car_st->obstructed = car_st->front < 150 || car_st->left <= 0
-        || car_st->right <= 0 ? 1 : 0;
+    car_st->obstructed = car_st->front < 150 || car_st->left <= 0 ||
+    car_st->right <= 0 ? 1 : 0;
     for (i = 0; distance[i] >= car_st->front; i++);
     if ((comp > 0 && car_st->obstructed) || (comp < 0 && !car_st->obstructed))
         send_cmd("WHEELS_DIR:-%.4f\n", dirs[i], &car_st->ended);
@@ -67,15 +67,15 @@ const char *forwards(int distance)
 
     while (dis_list[i] > distance)
         i++;
-    return(send_cmd("CAR_FORWARD:%.2f\n", speed[i]));
+    return (send_cmd("CAR_FORWARD:%.2f\n", speed[i]));
 }
 
 #ifndef __TESTS
-
 int main(void)
 {
-    send_cmd("START_SIMULATION\n");
     const char *response = NULL;
+
+    send_cmd("START_SIMULATION\n");
     car_state_s car_state = {0, 0, 2000, 0, 0};
     while (car_state.ended == 0) {
         if (car_state.obstructed)
@@ -88,5 +88,4 @@ int main(void)
     send_cmd("END_SIMULATION\n");
     return (0);
 }
-
 #endif

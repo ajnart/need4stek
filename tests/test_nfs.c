@@ -13,7 +13,6 @@
 // ? Sending commands
 const char *send_cmd(char *command, ...);
 char **my_str_to_wordtab(char *str, char g);
-int n4s(void);
 void update_direction(car_state_s *car_st);
 const char *forwards(int distance);
 
