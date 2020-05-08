@@ -34,7 +34,7 @@ void lidar_update(car_state_s *car_state)
     tab = my_str_to_wordtab((char *)response, ':');
     if (tab[34]) {
         car_state->left = atof(tab[3]);
-        car_state->front = atof(tab[20]);
+        car_state->front = atof(tab[15]);
         car_state->right = atof(tab[34]);
     }
     for (i = 0; tab[i]; i++)
@@ -46,12 +46,12 @@ void update_direction(car_state_s *car_st)
 {
     char *dir = NULL;
     int i = 0;
-    float distance[7] = {2500, 1500, 900, 600, 400, 200, 0};
-    float dirs[7] = {0.005, 0.05, 0.1, 0.2, 0.25, 0.4};
+    float distance[8] = {2500, 1500, 900, 600, 400, 200, 50, 0};
+    float dirs[8] = {0.0, 0.05, 0.1, 0.12, 0.15, 0.25, 0.4};
     int comp = car_st->left - car_st->right;
 
-    car_st->obstructed = car_st->front < 150 || car_st->left <= 0 ||
-    car_st->right <= 0 ? 1 : 0;
+    car_st->obstructed = car_st->front < 150 || car_st->left <= 20 ||
+    car_st->right <= 20 ? 1 : 0;
     for (i = 0; distance[i] >= car_st->front; i++);
     if ((comp > 0 && car_st->obstructed) || (comp < 0 && !car_st->obstructed))
         send_cmd("WHEELS_DIR:-%.4f\n", dirs[i], &car_st->ended);
@@ -62,9 +62,8 @@ void update_direction(car_state_s *car_st)
 const char *forwards(car_state_s *car_state)
 {
     int i = 0;
-    float dis_list[6] = {2000, 1500, 1000, 600, 400, 0};
-    float speed[6] = {0.8, 0.6, 0.5, 0.4, 0.2, 0.1};
-
+    float dis_list[6] = {2000, 1100, 800, 400, 200, 0};
+    float speed[6] = {1, 0.8, 0.6, 0.3, 0.2, 0.1};
     while (dis_list[i] > car_state->front)
         i++;
     return(send_cmd("CAR_FORWARD:%.2f\n", speed[i], &car_state->ended));
@@ -78,7 +77,7 @@ int main(void)
     const char *response = NULL;
     while (car_state.ended == 0) {
         if (car_state.obstructed)
-            send_cmd("CAR_BACKWARDS:0.25\n", &car_state.ended);
+            send_cmd("CAR_BACKWARDS:0.3\n", &car_state.ended);
         else
             response = forwards(&car_state);
         lidar_update(&car_state);
