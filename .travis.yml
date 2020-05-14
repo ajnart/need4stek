@@ -10,6 +10,11 @@ compiler:
 before_install:
   sudo add-apt-repository ppa:snaipewastaken/ppa -y && sudo apt-get update && sudo apt-get install criterion-dev -y
 
-script:
-  - make
-  - make tests_run
+jobs:
+  include:
+    - stage: compile
+      name: "Compilation and Linking"
+      script: make
+    - stage: test
+      name: "Unit testing"
+      script: make tests_run
