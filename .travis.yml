@@ -8,7 +8,7 @@ compiler:
   - gcc
 
 before_install:
-  sudo add-apt-repository ppa:snaipewastaken/ppa --force-yes && sudo apt-get update --force-yes && sudo apt-get install criterion-dev --force-yes
+  sudo add-apt-repository ppa:snaipewastaken/ppa -y && sudo apt-get update && sudo apt-get install criterion-dev -y
 
 script:
   - make
