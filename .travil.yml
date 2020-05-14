@@ -1,0 +1,17 @@
+language: C
+
+os: Linux
+
+sudo: false
+
+compiler:
+  - gcc
+
+before_install:
+  sudo add-apt-repository ppa:snaipewastaken/ppa
+  sudo apt-get update
+  sudo apt-get install criterion-dev
+
+script:
+  - make
+  - make tests_run
