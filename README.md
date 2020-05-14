@@ -1,5 +1,5 @@
-# Need4Stek
-
+[![Build Status](https://travis-ci.com/ajnart/need4stek.svg?token=q1egztihYoz6jyFQpEaU&branch=master)](https://travis-ci.com/ajnart/need4stek)
+# Need4Stek 
 The Need4Stek was a first year project at Epitech. It teaches you the basics of "artificial intelligence".
 
 
