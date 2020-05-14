@@ -1,14 +1,14 @@
-language: C
+language: c
 
-os: Linux
+os: linux
 
-sudo: false
+dist: xenial
 
 compiler:
   - gcc
 
 before_install:
-  sudo add-apt-repository ppa:snaipewastaken/ppa && sudo apt-get update && sudo apt-get install criterion-dev
+  sudo add-apt-repository ppa:snaipewastaken/ppa --force-yes && sudo apt-get update --force-yes && sudo apt-get install criterion-dev --force-yes
 
 script:
   - make
